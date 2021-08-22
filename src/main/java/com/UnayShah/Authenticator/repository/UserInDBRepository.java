@@ -9,7 +9,7 @@ import com.UnayShah.Authenticator.dao.UserInDB;
 @Repository
 public interface UserInDBRepository extends MongoRepository<UserInDB, String> {
 
-	@Query(value = "{_id:?0, password:?1, website:?2}")
+	@Query(value = "{$and :[{_id: ?0},{password: ?1},{websiteId: ?2}] }")
 	public UserInDB findByAllParameters(String username, String password, String websiteId);
 
 }

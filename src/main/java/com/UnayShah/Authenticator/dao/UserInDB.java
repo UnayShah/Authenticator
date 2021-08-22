@@ -3,7 +3,7 @@ package com.UnayShah.Authenticator.dao;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-//@Document(collection = "UserInDB")
+@Document(collection = "UserInDB")
 public class UserInDB {
 	@Id
 	String username;
@@ -32,10 +32,4 @@ public class UserInDB {
 	public void setWebsiteId(String websiteId) {
 		this.websiteId = websiteId;
 	}
-
-	@Override
-	public String toString() {
-		return "UserInDB [username=" + username + ", password=" + password + ", websiteId=" + websiteId + "]";
-	}
-
 }
