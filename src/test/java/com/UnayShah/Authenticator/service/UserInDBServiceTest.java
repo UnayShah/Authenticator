@@ -2,6 +2,8 @@ package com.UnayShah.Authenticator.service;
 
 import org.junit.jupiter.api.TestMethodOrder;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
@@ -53,6 +55,12 @@ public class UserInDBServiceTest {
 
 	@Test
 	@Order(2)
+	public void registerUserFailTest() {
+		assertNull(userInDBService.newUser(username, password, websiteId));
+	}
+
+	@Test
+	@Order(3)
 	public void editUserTest() {
 		assertTrue(
 				new ReflectionEquals(userInDBService.editUser(username, password, websiteId, newPassword, newWebsiteId),
@@ -60,8 +68,20 @@ public class UserInDBServiceTest {
 	}
 
 	@Test
-	@Order(3)
+	@Order(4)
+	public void editUserFailTest() {
+		assertNull(userInDBService.editUser(username, password, websiteId, newPassword, newWebsiteId));
+	}
+
+	@Test
+	@Order(5)
 	public void removeUserTest() {
 		assertTrue(userInDBService.removeUser(username, newPassword, newWebsiteId));
+	}
+
+	@Test
+	@Order(6)
+	public void removeUserFailTest() {
+		assertFalse(userInDBService.removeUser(username, newPassword, newWebsiteId));
 	}
 }

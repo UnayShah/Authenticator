@@ -3,6 +3,7 @@ package com.UnayShah.Authenticator.repository;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
@@ -56,8 +57,9 @@ public class UserInDBRepositoryTest {
 	@Test
 	@Order(3)
 	public void findByAllParameters() {
+		assertNotNull(userInDBRepository.findByAllParameters(username, password, websiteId));
 		assertTrue(new ReflectionEquals(userInDB, new String[0])
-				.matches(userInDBRepository.findByAllParameters(username, password, websiteId)));
+				.matches(userInDBRepository.findByAllParameters(username, password, websiteId).get()));
 	}
 
 	@Test
