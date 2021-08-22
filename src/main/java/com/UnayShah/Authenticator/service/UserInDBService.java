@@ -20,7 +20,6 @@ public class UserInDBService {
 
 	public UserInDB editUser(String username, String password, String websiteId, String newPassword,
 			String newWebsiteId) {
-		System.out.println(userInDBRepository.findByAllParameters(username, password, websiteId));
 		if (userInDBRepository.findByAllParameters(username, password, websiteId) != null) {
 			return userInDBRepository.save(new UserInDB(username, newPassword, newWebsiteId));
 		}
