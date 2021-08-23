@@ -28,60 +28,86 @@ public class UserInDBServiceTest {
 	UserInDBService userInDBService;
 
 	private static UserInDB userInDB;
-	private static UserInDB editedUserInDB;
 	private static String username;
 	private static String password;
-	private static String websiteId;
+	private static String websiteId1;
 	private static String newPassword;
-	private static String newWebsiteId;
+	private static String websiteId2;
 
 	@BeforeAll
 	public static void initialize() {
 		username = UUID.randomUUID().toString();
 		password = UUID.randomUUID().toString();
-		websiteId = UUID.randomUUID().toString();
+		websiteId1 = UUID.randomUUID().toString();
 		newPassword = UUID.randomUUID().toString();
-		newWebsiteId = UUID.randomUUID().toString();
-		userInDB = new UserInDB(username, password, websiteId);
-		editedUserInDB = new UserInDB(username, newPassword, newWebsiteId);
+		websiteId2 = UUID.randomUUID().toString();
+		userInDB = new UserInDB(username, password);
 	}
 
 	@Test
 	@Order(1)
-	public void registerUserTest() {
-		assertTrue(new ReflectionEquals(userInDBService.newUser(username, password, websiteId), new String[0])
-				.matches(userInDB));
+	public void newUserTest() {
+		assertTrue(new ReflectionEquals(userInDBService.newUser(username, password), new String[0]).matches(userInDB));
 	}
 
 	@Test
 	@Order(2)
-	public void registerUserFailTest() {
-		assertNull(userInDBService.newUser(username, password, websiteId));
+	public void newUserFailTest() {
+		assertNull(userInDBService.newUser(username, password));
 	}
 
 	@Test
 	@Order(3)
-	public void editUserTest() {
-		assertTrue(
-				new ReflectionEquals(userInDBService.editUser(username, password, websiteId, newPassword, newWebsiteId),
-						new String[0]).matches(editedUserInDB));
+	public void findUserTest() {
+		assertTrue(userInDBService.findUser(username, password));
+		assertFalse(userInDBService.findUser(username, newPassword));
 	}
 
 	@Test
 	@Order(4)
-	public void editUserFailTest() {
-		assertNull(userInDBService.editUser(username, password, websiteId, newPassword, newWebsiteId));
+	public void addWebsiteTest() {
+		assertTrue(userInDBService.addWebsite(username, password, websiteId1));
+		assertFalse(userInDBService.addWebsite(username, password, websiteId1));
 	}
 
 	@Test
 	@Order(5)
-	public void removeUserTest() {
-		assertTrue(userInDBService.removeUser(username, newPassword, newWebsiteId));
+	public void registeredUserTest() {
+		assertTrue(userInDBService.registeredUser(username, password, websiteId1));
+		assertFalse(userInDBService.registeredUser(username, newPassword, websiteId1));
+		assertFalse(userInDBService.registeredUser(username, password, websiteId2));
 	}
 
 	@Test
 	@Order(6)
+	public void removeWebsiteTest() {
+		assertTrue(userInDBService.removeWebsite(username, password, websiteId1));
+		assertFalse(userInDBService.removeWebsite(username, password, websiteId1));
+		assertFalse(userInDBService.removeWebsite(username, password, websiteId2));
+	}
+
+	@Test
+	@Order(7)
+	public void editUserTest() {
+		assertTrue(userInDBService.editUser(username, password, newPassword));
+		assertTrue(userInDBService.findUser(username, newPassword));
+	}
+
+	@Test
+	@Order(8)
+	public void editUserFailTest() {
+		assertFalse(userInDBService.editUser(username, password, newPassword));
+	}
+
+	@Test
+	@Order(9)
+	public void removeUserTest() {
+		assertTrue(userInDBService.removeUser(username, newPassword));
+	}
+
+	@Test
+	@Order(10)
 	public void removeUserFailTest() {
-		assertFalse(userInDBService.removeUser(username, newPassword, newWebsiteId));
+		assertFalse(userInDBService.removeUser(username, newPassword));
 	}
 }

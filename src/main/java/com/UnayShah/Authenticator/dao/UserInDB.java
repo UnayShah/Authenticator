@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.UnayShah.Authenticator.core.CommonConstants;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,11 +22,7 @@ public class UserInDB {
 		this.password = password;
 		if (websiteId == null)
 			this.websiteId = new TreeSet<>();
-	}
-
-	public UserInDB(String username, String password, String... websiteId) {
-		this(username, password);
-		this.websiteId.addAll(Arrays.asList(websiteId));
+		this.websiteId.add(CommonConstants.AUTHENTICATOR_WEBSITE_ID);
 	}
 
 	public String getUsername() {
@@ -43,11 +41,17 @@ public class UserInDB {
 		return this.websiteId.addAll(Arrays.asList(websiteId));
 	}
 
-	public boolean containsWebsiteId(String websiteId) {
-		return this.websiteId.contains(websiteId);
-	}
+	// public boolean containsWebsiteId(String websiteId) {
+	// 	return this.websiteId.contains(websiteId);
+	// }
 
 	public boolean removeWebsiteId(String websiteId) {
 		return this.websiteId.remove(websiteId);
 	}
+
+	@Override
+	public String toString() {
+		return "UserInDB [password=" + password + ", username=" + username + ", websiteId=" + websiteId + "]";
+	}
+	
 }
