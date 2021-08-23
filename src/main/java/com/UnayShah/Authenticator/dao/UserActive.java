@@ -8,4 +8,13 @@ public class UserActive {
 	@Id
 	String sessionId;
 	String username;
+
+	public UserActive(String sessionId, String username) {
+		this.sessionId = sessionId;
+		this.username = username;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
 }
