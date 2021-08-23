@@ -41,17 +41,7 @@ public class UserInDB {
 		return this.websiteId.addAll(Arrays.asList(websiteId));
 	}
 
-	// public boolean containsWebsiteId(String websiteId) {
-	// 	return this.websiteId.contains(websiteId);
-	// }
-
 	public boolean removeWebsiteId(String websiteId) {
 		return this.websiteId.remove(websiteId);
 	}
-
-	@Override
-	public String toString() {
-		return "UserInDB [password=" + password + ", username=" + username + ", websiteId=" + websiteId + "]";
-	}
-	
 }
