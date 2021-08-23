@@ -17,7 +17,7 @@ public class UserActiveService {
     UserInDBService userInDBService;
 
     public UserActive login(String username, String password, String websiteId) {
-        if (userInDBService.findUser(username, password, websiteId))
+        if (userInDBService.registeredUser(username, password, websiteId))
             return userActiveRepository.save(new UserActive(UUID.randomUUID().toString(), username));
         return null;
     }

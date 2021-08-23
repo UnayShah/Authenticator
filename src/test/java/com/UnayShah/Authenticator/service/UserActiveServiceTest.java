@@ -38,30 +38,32 @@ public class UserActiveServiceTest {
     private static String sessionId;
     private static String username;
     private static String password;
-    private static String websiteId;
+    private static String websiteId1;
+    private static String websiteId2;
 
     @BeforeAll
     public static void initialize() {
         username = UUID.randomUUID().toString();
         password = UUID.randomUUID().toString();
-        websiteId = UUID.randomUUID().toString();
-
+        websiteId1 = UUID.randomUUID().toString();
+        websiteId2 = UUID.randomUUID().toString();
     }
 
     @BeforeEach
     public void initializeUserInDB() {
-        assertNotNull(userInDBService.newUser(username, password, websiteId));
+        assertNotNull(userInDBService.newUser(username, password));
+        assertTrue(userInDBService.addWebsite(username, password, websiteId1));
     }
 
     @AfterEach
     public void terminateUserInDB() {
-        assertTrue(userInDBService.removeUser(username, password, websiteId));
+        assertTrue(userInDBService.removeUser(username, password));
     }
 
     @Test
     @Order(1)
     public void loginTest() {
-        userActive = userActiveService.login(username, password, websiteId);
+        userActive = userActiveService.login(username, password, websiteId1);
         assertNotNull(userActive.getSessionId());
         sessionId = userActive.getSessionId();
     }
@@ -69,7 +71,7 @@ public class UserActiveServiceTest {
     @Test
     @Order(2)
     public void loginFailTest() {
-        assertNull(userActiveService.login(username, password, UUID.randomUUID().toString()));
+        assertNull(userActiveService.login(username, password, websiteId2));
     }
 
     @Test
@@ -82,7 +84,7 @@ public class UserActiveServiceTest {
     @Test
     @Order(4)
     public void refreshSessionFailTest() {
-        assertNull(userActiveService.refreshSession(sessionId, UUID.randomUUID().toString()));
+        assertNull(userActiveService.refreshSession(sessionId, password));
     }
 
     @Test
