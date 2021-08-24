@@ -32,9 +32,9 @@ public class UserActiveRepositoryTest {
 
     @BeforeAll
     public static void initialize() {
-        sessionId = UUID.randomUUID().toString();
         username = UUID.randomUUID().toString();
-        userActive = new UserActive(sessionId, username);
+        userActive = new UserActive(username);
+        sessionId = userActive.getSessionId();
     }
 
     @Test

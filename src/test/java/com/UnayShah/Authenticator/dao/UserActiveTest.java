@@ -1,6 +1,6 @@
 package com.UnayShah.Authenticator.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.UUID;
 
@@ -15,15 +15,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class UserActiveTest {
-    @Mock
+	@Mock
 	UserActive userActive;
-	String sessionId = UUID.randomUUID().toString();
 	String username = UUID.randomUUID().toString();
 
-    @Test
+	@Test
 	@Order(1)
 	public void constructorTest() {
-		userActive = new UserActive(sessionId, username);
-		assertEquals(sessionId, userActive.getSessionId());
+		userActive = new UserActive(username);
+		assertNotNull(userActive.getSessionId());
 	}
 }

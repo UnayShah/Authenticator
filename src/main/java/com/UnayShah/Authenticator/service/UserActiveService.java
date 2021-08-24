@@ -1,7 +1,5 @@
 package com.UnayShah.Authenticator.service;
 
-import java.util.UUID;
-
 import com.UnayShah.Authenticator.dao.UserActive;
 import com.UnayShah.Authenticator.repository.UserActiveRepository;
 
@@ -18,7 +16,7 @@ public class UserActiveService {
 
     public UserActive login(String username, String password, String websiteId) {
         if (userInDBService.registeredUser(username, password, websiteId))
-            return userActiveRepository.save(new UserActive(UUID.randomUUID().toString(), username));
+            return userActiveRepository.save(new UserActive(username));
         return null;
     }
 
