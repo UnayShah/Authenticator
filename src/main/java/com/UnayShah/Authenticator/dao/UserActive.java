@@ -1,5 +1,7 @@
 package com.UnayShah.Authenticator.dao;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,8 +11,8 @@ public class UserActive {
 	String sessionId;
 	String username;
 
-	public UserActive(String sessionId, String username) {
-		this.sessionId = sessionId;
+	public UserActive(String username) {
+		this.sessionId = UUID.randomUUID().toString();
 		this.username = username;
 	}
 
