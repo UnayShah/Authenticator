@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import com.UnayShah.Authenticator.dao.UserInDB;
+import com.UnayShah.Authenticator.model.UserInDB;
 
 @Repository
 public interface UserInDBRepository extends MongoRepository<UserInDB, String> {

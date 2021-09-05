@@ -1,6 +1,6 @@
 package com.UnayShah.Authenticator.controller;
 
-import com.UnayShah.Authenticator.dao.UserActive;
+import com.UnayShah.Authenticator.model.UserActive;
 import com.UnayShah.Authenticator.service.UserActiveService;
 
 import org.springframework.beans.factory.annotation.Autowired;

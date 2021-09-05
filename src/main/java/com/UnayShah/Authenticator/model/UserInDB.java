@@ -1,4 +1,4 @@
-package com.UnayShah.Authenticator.dao;
+package com.UnayShah.Authenticator.model;
 
 import java.util.Arrays;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.UnayShah.Authenticator.dao;
+package com.UnayShah.Authenticator.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

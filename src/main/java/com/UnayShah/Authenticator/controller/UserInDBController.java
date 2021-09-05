@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.UnayShah.Authenticator.dao.UserInDB;
+import com.UnayShah.Authenticator.model.UserInDB;
 import com.UnayShah.Authenticator.service.UserInDBService;
 
 @Controller

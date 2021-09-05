@@ -2,7 +2,7 @@ package com.UnayShah.Authenticator.repository;
 
 import java.util.Optional;
 
-import com.UnayShah.Authenticator.dao.UserActive;
+import com.UnayShah.Authenticator.model.UserActive;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

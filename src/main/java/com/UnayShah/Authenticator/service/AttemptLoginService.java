@@ -1,6 +1,6 @@
 package com.UnayShah.Authenticator.service;
 
-import com.UnayShah.Authenticator.dao.AttemptLogin;
+import com.UnayShah.Authenticator.model.AttemptLogin;
 import com.UnayShah.Authenticator.repository.AttemptLoginRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

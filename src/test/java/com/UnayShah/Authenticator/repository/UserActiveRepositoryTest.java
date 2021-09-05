@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
-import com.UnayShah.Authenticator.dao.UserActive;
+import com.UnayShah.Authenticator.model.UserActive;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;

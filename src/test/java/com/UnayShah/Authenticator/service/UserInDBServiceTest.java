@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.UnayShah.Authenticator.core.CommonConstants;
-import com.UnayShah.Authenticator.dao.UserActive;
-import com.UnayShah.Authenticator.dao.UserInDB;
+import com.UnayShah.Authenticator.model.UserActive;
+import com.UnayShah.Authenticator.model.UserInDB;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest

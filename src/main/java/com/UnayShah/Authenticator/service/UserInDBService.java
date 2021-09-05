@@ -3,7 +3,7 @@ package com.UnayShah.Authenticator.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.UnayShah.Authenticator.dao.UserInDB;
+import com.UnayShah.Authenticator.model.UserInDB;
 import com.UnayShah.Authenticator.repository.UserInDBRepository;
 
 @Service
