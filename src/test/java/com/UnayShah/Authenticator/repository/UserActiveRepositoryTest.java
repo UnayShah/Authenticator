@@ -46,23 +46,24 @@ public class UserActiveRepositoryTest {
     @Test
     @Order(2)
     public void findTest() {
-        assertTrue(new ReflectionEquals(userActive, new String[0])
-                .matches(userActiveRepository.findById(sessionId).get()));
+        assertTrue(userActiveRepository.findById(username).isPresent());
+        assertTrue(
+                new ReflectionEquals(userActive, new String[0]).matches(userActiveRepository.findById(username).get()));
     }
 
     @Test
     @Order(3)
     public void findByAllParameters() {
-        assertNotNull(userActiveRepository.findByAllParameters(sessionId, username));
+        assertNotNull(userActiveRepository.findByAllParameters(username, sessionId));
         assertTrue(new ReflectionEquals(userActive, new String[0])
-                .matches(userActiveRepository.findByAllParameters(sessionId, username).get()));
+                .matches(userActiveRepository.findByAllParameters(username, sessionId).get()));
     }
 
     @Test
     @Order(4)
     public void removeTest() {
-        assertTrue(userActiveRepository.findById(sessionId).isPresent());
-        userActiveRepository.deleteById(sessionId);
-        assertTrue(userActiveRepository.findById(sessionId).isEmpty());
+        assertTrue(userActiveRepository.findById(username).isPresent());
+        userActiveRepository.deleteById(username);
+        assertTrue(userActiveRepository.findById(username).isEmpty());
     }
 }

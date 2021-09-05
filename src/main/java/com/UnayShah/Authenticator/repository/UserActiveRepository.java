@@ -18,6 +18,6 @@ public interface UserActiveRepository extends MongoRepository<UserActive, String
      * @param username
      * @return
      */
-    @Query(value = "{$and :[{_id: ?0},{username: ?1}] }")
-    public Optional<UserActive> findByAllParameters(String sessionId, String username);
+    @Query(value = "{$and :[{_id: ?0},{sessionId: ?1}] }")
+    public Optional<UserActive> findByAllParameters(String username, String sessionId);
 }

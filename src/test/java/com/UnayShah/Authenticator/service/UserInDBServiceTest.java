@@ -18,6 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.UnayShah.Authenticator.core.CommonConstants;
+import com.UnayShah.Authenticator.dao.UserActive;
 import com.UnayShah.Authenticator.dao.UserInDB;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,8 +28,11 @@ import com.UnayShah.Authenticator.dao.UserInDB;
 public class UserInDBServiceTest {
 	@Autowired
 	UserInDBService userInDBService;
+	@Autowired
+	UserActiveService userActiveService;
 
 	private static UserInDB userInDB;
+	private static UserActive userActive;
 	private static String username;
 	private static String password;
 	private static String websiteId1;
@@ -38,7 +43,7 @@ public class UserInDBServiceTest {
 	public static void initialize() {
 		username = UUID.randomUUID().toString();
 		password = UUID.randomUUID().toString();
-		websiteId1 = UUID.randomUUID().toString();
+		websiteId1 = CommonConstants.AUTHENTICATOR_WEBSITE_ID;
 		newPassword = UUID.randomUUID().toString();
 		websiteId2 = UUID.randomUUID().toString();
 		userInDB = new UserInDB(username, password);
@@ -66,8 +71,9 @@ public class UserInDBServiceTest {
 	@Test
 	@Order(4)
 	public void addWebsiteTest() {
-		assertTrue(userInDBService.addWebsite(username, password, websiteId1));
-		assertFalse(userInDBService.addWebsite(username, password, websiteId1));
+		userActive = userActiveService.login(username, password, websiteId1);
+		assertFalse(userInDBService.addWebsite(username, password, websiteId1, userActive.getSessionId()));
+		assertTrue(userInDBService.addWebsite(username, password, websiteId2, userActive.getSessionId()));
 	}
 
 	@Test
@@ -75,39 +81,39 @@ public class UserInDBServiceTest {
 	public void registeredUserTest() {
 		assertTrue(userInDBService.registeredUser(username, password, websiteId1));
 		assertFalse(userInDBService.registeredUser(username, newPassword, websiteId1));
-		assertFalse(userInDBService.registeredUser(username, password, websiteId2));
+		assertTrue(userInDBService.registeredUser(username, password, websiteId2));
 	}
 
 	@Test
 	@Order(6)
 	public void removeWebsiteTest() {
-		assertTrue(userInDBService.removeWebsite(username, password, websiteId1));
-		assertFalse(userInDBService.removeWebsite(username, password, websiteId1));
-		assertFalse(userInDBService.removeWebsite(username, password, websiteId2));
+		assertTrue(userInDBService.removeWebsite(username, password, websiteId1, userActive.getSessionId()));
+		assertFalse(userInDBService.removeWebsite(username, password, websiteId1, userActive.getSessionId()));
+		assertTrue(userInDBService.removeWebsite(username, password, websiteId2, userActive.getSessionId()));
 	}
 
 	@Test
 	@Order(7)
 	public void editUserTest() {
-		assertTrue(userInDBService.editUser(username, password, newPassword));
+		assertTrue(userInDBService.editUser(username, password, newPassword, userActive.getSessionId()));
 		assertTrue(userInDBService.findUser(username, newPassword));
 	}
 
 	@Test
 	@Order(8)
 	public void editUserFailTest() {
-		assertFalse(userInDBService.editUser(username, password, newPassword));
+		assertFalse(userInDBService.editUser(username, password, newPassword, userActive.getSessionId()));
 	}
 
 	@Test
 	@Order(9)
 	public void removeUserTest() {
-		assertTrue(userInDBService.removeUser(username, newPassword));
+		assertTrue(userInDBService.removeUser(username, newPassword, userActive.getSessionId()));
 	}
 
 	@Test
 	@Order(10)
 	public void removeUserFailTest() {
-		assertFalse(userInDBService.removeUser(username, newPassword));
+		assertFalse(userInDBService.removeUser(username, newPassword, userActive.getSessionId()));
 	}
 }

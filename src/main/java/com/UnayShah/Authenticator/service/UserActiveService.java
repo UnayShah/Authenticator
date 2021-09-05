@@ -28,6 +28,12 @@ public class UserActiveService {
         return null;
     }
 
+    public Boolean checkSession(String username, String sessionId) {
+        if (refreshSession(username, sessionId) != null)
+            return true;
+        return false;
+    }
+
     /**
      * refresh a user session by changing login time to be implemented in the future
      * 
@@ -35,10 +41,10 @@ public class UserActiveService {
      * @param username
      * @return
      */
-    public UserActive refreshSession(String sessionId, String username) {
+    public UserActive refreshSession(String username, String sessionId) {
         // TO DO: add timestamp field for logged in user and modify it to current time
-        if (userActiveRepository.findByAllParameters(sessionId, username).isPresent())
-            return userActiveRepository.findByAllParameters(sessionId, username).get();
+        if (userActiveRepository.findByAllParameters(username, sessionId).isPresent())
+            return userActiveRepository.findByAllParameters(username, sessionId).get();
         return null;
     }
 
@@ -49,9 +55,9 @@ public class UserActiveService {
      * @param username
      * @return
      */
-    public Boolean logout(String sessionId, String username) {
-        if (userActiveRepository.findByAllParameters(sessionId, username).isPresent()) {
-            userActiveRepository.delete(userActiveRepository.findByAllParameters(sessionId, username).get());
+    public Boolean logout(String username, String sessionId) {
+        if (userActiveRepository.findByAllParameters(username, sessionId).isPresent()) {
+            userActiveRepository.delete(userActiveRepository.findByAllParameters(username, sessionId).get());
             return true;
         }
         return false;

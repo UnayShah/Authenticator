@@ -11,6 +11,9 @@ public class UserInDBService {
 	@Autowired
 	private UserInDBRepository userInDBRepository;
 
+	@Autowired
+	private UserActiveService userActiveService;
+
 	/**
 	 * register a new user to the authenticator
 	 * 
@@ -57,8 +60,9 @@ public class UserInDBService {
 	 * @param websiteId
 	 * @return
 	 */
-	public Boolean addWebsite(String username, String password, String websiteId) {
-		if (findUser(username, password) && !registeredUser(username, password, websiteId)) {
+	public Boolean addWebsite(String username, String password, String websiteId, String sessionId) {
+		if (findUser(username, password) && !registeredUser(username, password, websiteId)
+				&& userActiveService.checkSession(username, sessionId)) {
 			UserInDB userInDB = userInDBRepository.findByCredentials(username, password).get();
 			userInDB.addWebsiteId(websiteId);
 			userInDBRepository.save(userInDB);
@@ -75,8 +79,8 @@ public class UserInDBService {
 	 * @param websiteId
 	 * @return
 	 */
-	public Boolean removeWebsite(String username, String password, String websiteId) {
-		if (registeredUser(username, password, websiteId)) {
+	public Boolean removeWebsite(String username, String password, String websiteId, String sessionId) {
+		if (registeredUser(username, password, websiteId) && userActiveService.checkSession(username, sessionId)) {
 			UserInDB userInDB = userInDBRepository.findByCredentials(username, password).get();
 			userInDB.removeWebsiteId(websiteId);
 			userInDBRepository.save(userInDB);
@@ -93,8 +97,8 @@ public class UserInDBService {
 	 * @param newPassword
 	 * @return
 	 */
-	public Boolean editUser(String username, String password, String newPassword) {
-		if (findUser(username, password)) {
+	public Boolean editUser(String username, String password, String newPassword, String sessionId) {
+		if (findUser(username, password) && userActiveService.checkSession(username, sessionId)) {
 			UserInDB userInDB = userInDBRepository.findByCredentials(username, password).get();
 			userInDB.setPassword(newPassword);
 			userInDBRepository.save(userInDB);
@@ -110,9 +114,10 @@ public class UserInDBService {
 	 * @param password
 	 * @return
 	 */
-	public Boolean removeUser(String username, String password) {
-		if (findUser(username, password)) {
+	public Boolean removeUser(String username, String password, String sessionId) {
+		if (findUser(username, password) && userActiveService.checkSession(username, sessionId)) {
 			userInDBRepository.deleteById(username);
+			userActiveService.logout(username, sessionId);
 			return !userInDBRepository.findById(username).isPresent();
 		} else
 			return false;

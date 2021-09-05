@@ -25,14 +25,14 @@ public class UserActiveController {
     }
 
     @PutMapping(value = "refreshSession")
-    public ResponseEntity<UserActive> refreshSession(@RequestParam(name = "sessionId") String sessionId,
-            @RequestParam(name = "username") String username) {
-        return new ResponseEntity<>(userActiveService.refreshSession(sessionId, username), HttpStatus.ACCEPTED);
+    public ResponseEntity<UserActive> refreshSession(@RequestParam(name = "username") String username,
+            @RequestParam(name = "sessionId") String sessionId) {
+        return new ResponseEntity<>(userActiveService.refreshSession(username, sessionId), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(value = "logout")
-    public ResponseEntity<Boolean> logout(@RequestParam(name = "sessionId") String sessionId,
-            @RequestParam(name = "username") String username) {
-        return new ResponseEntity<>(userActiveService.logout(sessionId, username), HttpStatus.ACCEPTED);
+    public ResponseEntity<Boolean> logout(@RequestParam(name = "username") String username,
+            @RequestParam(name = "sessionId") String sessionId) {
+        return new ResponseEntity<>(userActiveService.logout(username, sessionId), HttpStatus.ACCEPTED);
     }
 }

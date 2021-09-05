@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
+import com.UnayShah.Authenticator.core.CommonConstants;
 import com.UnayShah.Authenticator.dao.UserActive;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -45,25 +46,33 @@ public class UserActiveServiceTest {
     public static void initialize() {
         username = UUID.randomUUID().toString();
         password = UUID.randomUUID().toString();
-        websiteId1 = UUID.randomUUID().toString();
+        websiteId1 = CommonConstants.AUTHENTICATOR_WEBSITE_ID;
         websiteId2 = UUID.randomUUID().toString();
     }
 
     @BeforeEach
     public void initializeUserInDB() {
         assertNotNull(userInDBService.newUser(username, password));
-        assertTrue(userInDBService.addWebsite(username, password, websiteId1));
+        // userActive = userActiveService.login(username, password, websiteId1);
+        // assertNotNull(userActive);
+        // assertTrue(userInDBService.addWebsite(username, password, websiteId2,
+        // userActive.getSessionId()));
+        userActive = userActiveService.login(username, password, websiteId1);
     }
 
     @AfterEach
     public void terminateUserInDB() {
-        assertTrue(userInDBService.removeUser(username, password));
+        if (!sessionId.equals(""))
+            assertTrue(userInDBService.removeUser(username, password, sessionId));
+        else
+            assertTrue(userInDBService.removeUser(username, password,
+                    userActiveService.login(username, password, websiteId1).getSessionId()));
+        sessionId = "";
     }
 
     @Test
     @Order(1)
     public void loginTest() {
-        userActive = userActiveService.login(username, password, websiteId1);
         assertNotNull(userActive.getSessionId());
         sessionId = userActive.getSessionId();
     }
@@ -77,26 +86,31 @@ public class UserActiveServiceTest {
     @Test
     @Order(3)
     public void refreshSessionTest() {
-        assertNotNull(userActiveService.refreshSession(sessionId, username));
-        assertEquals(userActiveService.refreshSession(sessionId, username).getSessionId(), sessionId);
+        assertNotNull(userActiveService.refreshSession(username, userActive.getSessionId()));
+        assertEquals(userActiveService.refreshSession(username, userActive.getSessionId()).getSessionId(), userActive.getSessionId());
     }
 
     @Test
     @Order(4)
     public void refreshSessionFailTest() {
-        assertNull(userActiveService.refreshSession(sessionId, password));
+        assertNull(userActiveService.refreshSession(username, password));
     }
 
     @Test
     @Order(5)
-    public void logoutTest() {
-        assertTrue(userActiveService.logout(sessionId, username));
+    public void checkSessionFailTest() {
+        assertTrue(userActiveService.checkSession(username, userActive.getSessionId()));
     }
 
     @Test
     @Order(6)
-    public void logoutFailTest() {
-        assertFalse(userActiveService.logout(sessionId, username));
+    public void logoutTest() {
+        assertTrue(userActiveService.logout(username, userActive.getSessionId()));
     }
 
+    @Test
+    @Order(7)
+    public void logoutFailTest() {
+        assertFalse(userActiveService.logout(username, password));
+    }
 }
